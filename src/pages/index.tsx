@@ -1,26 +1,16 @@
 import { Box, Button } from '@mui/material'
-import { addDoc, collection } from 'firebase/firestore'
 import type { NextPage } from 'next'
-import { firestore } from '~/plugins/firebase'
+import Link from 'next/link'
 
 const Home: NextPage = () => {
-  const addDocument = async () => {
-    try {
-      const docRef = await addDoc(collection(firestore, 'users'), {
-        born: 1815,
-        first: 'Ada',
-        last: 'Lovelace',
-      })
-      console.log('Document written with ID: ', docRef.id)
-    } catch (e) {
-      console.error('Error adding document: ', e)
-    }
-  }
   return (
     <Box>
-      <Button variant='contained' onClick={addDocument}>
-        データを追加
-      </Button>
+      <Link href='/login'>
+        <Button variant='contained'>ログイン</Button>
+      </Link>
+      <Link href='/signin'>
+        <Button variant='contained'>新規登録</Button>
+      </Link>
     </Box>
   )
 }

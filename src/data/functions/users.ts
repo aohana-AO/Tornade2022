@@ -1,10 +1,10 @@
-import { addDoc } from 'firebase/firestore'
+import { doc, setDoc } from 'firebase/firestore'
 import { UsersDocument } from '~/types/users'
 import { firebaseRefs } from '../schema'
 
 export const createUserDocument = async (user: UsersDocument) => {
   try {
-    await addDoc(firebaseRefs.users.parent, {
+    await setDoc(doc(firebaseRefs.users.parent, user.id), {
       ...user,
     })
   } catch (e) {
