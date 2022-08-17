@@ -1,15 +1,28 @@
+import { Box, Button, TextField } from '@mui/material'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useRouter } from 'next/router'
-import { useCallback } from 'react'
+import { ChangeEvent, useCallback, useState } from 'react'
 import { auth } from '~/plugins/firebase'
-import { LogInPagePresenter } from './presenter'
 
 export type LogInPageProps = {
   // TODO
 }
 
 export const LogInPage: React.FC<LogInPageProps> = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  // テキストの入力状態を更新
+  const onChangeEmail = useCallback((e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setEmail(e.target.value)
+  }, [])
+  const onChangePassword = useCallback((e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setPassword(e.target.value)
+  }, [])
+
+  // ルーティング
   const router = useRouter()
+
   // ログイン
   const onClickLogInButton = useCallback((email: string, password: string) => {
     signInWithEmailAndPassword(auth, email, password)
@@ -27,5 +40,14 @@ export const LogInPage: React.FC<LogInPageProps> = () => {
         console.log(errorCode, errorMessage)
       })
   }, [])
-  return <LogInPagePresenter onClickLogInButton={onClickLogInButton} />
+
+  return (
+    <Box display='flex' flexDirection='column' sx={{ maxWidth: '1200px', mx: 'auto', pt: '64px', px: '24px' }}>
+      <TextField label='メールアドレス' value={email} onChange={(e) => onChangeEmail(e)} sx={{ my: '16px' }} />
+      <TextField label='パスワード' value={password} onChange={(e) => onChangePassword(e)} sx={{ my: '16px' }} />
+      <Button variant='contained' onClick={() => onClickLogInButton(email, password)} sx={{ my: '16px' }}>
+        ログインする
+      </Button>
+    </Box>
+  )
 }
