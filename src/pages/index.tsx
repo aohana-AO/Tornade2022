@@ -11,6 +11,9 @@ const Home: NextPage = () => {
       <Link href='/signin'>
         <Button variant='contained'>新規登録</Button>
       </Link>
+      <Link href='/map'>
+        <Button variant='contained'>地図</Button>
+      </Link>
     </Box>
   )
 }
